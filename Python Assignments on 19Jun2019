@@ -1,0 +1,74 @@
+import re
+
+passwordRegex = re.compile(r'''(
+    ^(?=.*[A-Z].*[A-Z])                # at least two capital letters
+    (?=.*[!@#$&*])                     # at least one of these special characters
+    (?=.*[0-9].*[0-9])                 # at least two numeric digits
+    (?=.*[a-z].*[a-z].*[a-z])          # at least three lower case letters
+    .{10,}                             # at least 10 total digits
+    $
+    )''', re.VERBOSE)
+
+def userInputPasswordCheck():
+    ppass = input("Enter a potential password: ")
+    mo = passwordRegex.search(ppass)
+    if (not mo):
+        print("Not a valid Password")
+        return False
+    else:
+        print("Valid Password")
+        return True
+
+
+userInputPasswordCheck()
+
+-----------------------------------------------------------------------------------------------------------------------
+
+import re
+
+# user input
+search_str = input("Please Enter the string you are searching for: \n")
+print("")
+# file input
+file = open("/users/mansunda/documents/test.txt")
+content = file.read()
+file.close()
+
+# create regex
+regex = re.compile(r".*%s.*" % search_str)
+
+# print out the lines with match
+if regex.search(content) is None:
+    print("No matches was found.")
+else:
+    print(regex.findall(content))
+----------------------------------------------------------------------------------------------------------------------------
+
+import re
+
+file = open('.\\documents\\test1.txt', 'r')
+content = file.read()
+mad_lib_words = list(content.split())
+file.close()
+
+adj_regex = re.compile(r'ADJECTIVE')
+noun_regex = re.compile(r'NOUN')
+adv_regex = re.compile(r'ADVERB')
+verb_regex = re.compile(r'VERB')
+
+result_file = open('.\\documents\\test1_result.txt', 'w')
+result_string = ""
+for word in mad_lib_words:
+    if adj_regex.match(word):
+        word = adj_regex.sub(input("Give an adjective: "), word)
+    elif noun_regex.match(word):
+        word = noun_regex.sub(input("Give a noun: "), word)
+    elif verb_regex.match(word):
+        word = verb_regex.sub(input("Give a verb: "), word)
+    elif adv_regex.match(word):
+        word = adv_regex.sub(input("Give a adverb: "), word)
+    result_string += word + " "
+    result_file.write(word + " ")
+
+print(result_string)
+result_file.close()
